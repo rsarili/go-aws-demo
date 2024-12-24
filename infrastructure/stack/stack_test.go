@@ -9,13 +9,13 @@ package main
 // )
 
 // example tests. To run these tests, uncomment this file along with the
-// example resource in go-aws-demo_test.go
-// func TestGoAwsDemoStack(t *testing.T) {
+// example resource in stack_test.go
+// func TestStackStack(t *testing.T) {
 // 	// GIVEN
 // 	app := awscdk.NewApp(nil)
 
 // 	// WHEN
-// 	stack := NewGoAwsDemoStack(app, "MyStack", nil)
+// 	stack := NewStackStack(app, "MyStack", nil)
 
 // 	// THEN
 // 	template := assertions.Template_FromStack(stack, nil)

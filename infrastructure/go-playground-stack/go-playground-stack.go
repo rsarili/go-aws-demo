@@ -7,11 +7,11 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
-type GoAwsDemoStackProps struct {
+type GoPlaygroundStackStackProps struct {
 	awscdk.StackProps
 }
 
-func NewGoAwsDemoStack(scope constructs.Construct, id string, props *GoAwsDemoStackProps) awscdk.Stack {
+func NewGoPlaygroundStackStack(scope constructs.Construct, id string, props *GoPlaygroundStackStackProps) awscdk.Stack {
 	var sprops awscdk.StackProps
 	if props != nil {
 		sprops = props.StackProps
@@ -21,7 +21,7 @@ func NewGoAwsDemoStack(scope constructs.Construct, id string, props *GoAwsDemoSt
 	// The code that defines your stack goes here
 
 	// example resource
-	// queue := awssqs.NewQueue(stack, jsii.String("GoAwsDemoQueue"), &awssqs.QueueProps{
+	// queue := awssqs.NewQueue(stack, jsii.String("GoPlaygroundStackQueue"), &awssqs.QueueProps{
 	// 	VisibilityTimeout: awscdk.Duration_Seconds(jsii.Number(300)),
 	// })
 
@@ -33,7 +33,7 @@ func main() {
 
 	app := awscdk.NewApp(nil)
 
-	NewGoAwsDemoStack(app, "GoAwsDemoStack", &GoAwsDemoStackProps{
+	NewGoPlaygroundStackStack(app, "GoPlaygroundStack", &GoPlaygroundStackStackProps{
 		awscdk.StackProps{
 			Env: env(),
 		},
