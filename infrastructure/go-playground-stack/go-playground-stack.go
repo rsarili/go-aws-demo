@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
 	// "github.com/aws/aws-cdk-go/awscdk/v2/awssqs"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
@@ -24,6 +25,11 @@ func NewGoPlaygroundStackStack(scope constructs.Construct, id string, props *GoP
 	// queue := awssqs.NewQueue(stack, jsii.String("GoPlaygroundStackQueue"), &awssqs.QueueProps{
 	// 	VisibilityTimeout: awscdk.Duration_Seconds(jsii.Number(300)),
 	// })
+	awslambda.NewFunction(stack, jsii.String("HelloWorld"), &awslambda.FunctionProps{
+		Runtime: awslambda.Runtime_PROVIDED_AL2023(),
+		Code:    awslambda.Code_FromAsset(jsii.String("../../functions/hello-world"), nil),
+		Handler: jsii.String("bootstrap"),
+	})
 
 	return stack
 }
