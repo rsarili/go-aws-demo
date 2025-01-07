@@ -27,8 +27,9 @@ func NewGoPlaygroundStackStack(scope constructs.Construct, id string, props *GoP
 	// })
 	awslambda.NewFunction(stack, jsii.String("HelloWorld"), &awslambda.FunctionProps{
 		Runtime: awslambda.Runtime_PROVIDED_AL2023(),
-		Code:    awslambda.Code_FromAsset(jsii.String("../../functions/hello-world"), nil),
+		Code:    awslambda.Code_FromAsset(jsii.String("../../functions/hello-world/dist"), nil),
 		Handler: jsii.String("bootstrap"),
+		FunctionName: jsii.String("hello-world"),
 	})
 
 	return stack

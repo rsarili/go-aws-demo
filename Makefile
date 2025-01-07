@@ -7,4 +7,4 @@ deploy:
 
 .PHONY:
 build:
-	cd functions/hello-world  && GOARCH=amd64 GOOS=linux go build -o bootstrap main.go
+	cd functions/hello-world  && GOARCH=amd64 GOOS=linux go build -o dist/bootstrap main.go
