@@ -4,6 +4,7 @@ import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
 	// "github.com/aws/aws-cdk-go/awscdk/v2/awssqs"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awsapigateway"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 )
@@ -25,13 +26,29 @@ func NewGoPlaygroundStackStack(scope constructs.Construct, id string, props *GoP
 	// queue := awssqs.NewQueue(stack, jsii.String("GoPlaygroundStackQueue"), &awssqs.QueueProps{
 	// 	VisibilityTimeout: awscdk.Duration_Seconds(jsii.Number(300)),
 	// })
-	awslambda.NewFunction(stack, jsii.String("HelloWorld"), &awslambda.FunctionProps{
+	var function awslambda.Function = awslambda.NewFunction(stack, jsii.String("HelloWorld"), &awslambda.FunctionProps{
 		Runtime: awslambda.Runtime_PROVIDED_AL2023(),
 		Code:    awslambda.Code_FromAsset(jsii.String("../../functions/hello-world/dist"), nil),
 		Handler: jsii.String("bootstrap"),
 		FunctionName: jsii.String("hello-world"),
 	})
 
+	var api awsapigateway.RestApi = awsapigateway.NewRestApi(stack, jsii.String("HelloWorldApi"), &awsapigateway.RestApiProps{
+		DeployOptions: &awsapigateway.StageOptions{
+			StageName: jsii.String("dev"),
+		},
+	})
+	resource := api.Root().AddResource(jsii.String("hello-world"), nil)
+	apiIntegration := awsapigateway.NewLambdaIntegration(function, &awsapigateway.LambdaIntegrationOptions{
+		Proxy: jsii.Bool(true),
+	})
+
+	corsOptions := &awsapigateway.CorsOptions{
+		AllowOrigins: awsapigateway.Cors_ALL_ORIGINS(),
+		AllowMethods: awsapigateway.Cors_ALL_METHODS(),
+	}
+	resource.AddCorsPreflight(corsOptions)
+	resource.AddMethod(jsii.String("POST"), apiIntegration, nil)
 	return stack
 }
 

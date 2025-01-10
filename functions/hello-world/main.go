@@ -1,25 +1,20 @@
 package main
 
 import (
-	"context"
-	"encoding/json"
 	"fmt"
-	"log"
-
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func handleRequest(ctx context.Context, event json.RawMessage) (string, error) {
+func handleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// Parse the input event
-	var message map[string]interface{}
-	if err := json.Unmarshal(event, &message); err != nil {
-		log.Printf("Failed to unmarshal event: %v", err)
-		return "", err
-	}
 
-	fmt.Println("Received event:", message)
+	fmt.Println("request body:", request.Body)
 
-	return message["name"].(string), nil
+	return events.APIGatewayProxyResponse{
+		StatusCode: 200,
+		Body:       "Request body is: " + request.Body,
+	}, nil
 }
 
 func main() {
